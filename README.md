@@ -1,2 +1,4 @@
-# wix-cuat-gpt
-Um chatbot usando chatGPT
+# Einstein Chatty: um chatbot usando chatGPT
+
+Saiba mais
+https://jorgeguerrabrazil.editorx.io/einstein
