@@ -1,0 +1,16 @@
+import wixChatBackend from 'wix-chat-backend';
+
+ export async function sendChatMessage(messageText, channelId) {
+
+   await wixChatBackend.sendMessage({
+     "messageText": messageText,
+     "channelId": channelId,    
+     "sendAsVisitor": false
+   })
+  //  .then( () => {
+  //    console.log("Chat message sent");
+  //  })
+   .catch( (error) => {
+     console.log(error);
+   });
+ }
