@@ -1,0 +1,46 @@
+
+/**  Direito autorais: Jorge Guerra Pires 
+ * The MIT License 
+ * Essa função recebe uma mensagem, e um cnjunto de palavras-chaves.
+ * Ela response true se existe qualquer uma das palavras chaves, não impotante maísculo ou minúscuto (not case sensitive)
+ * mas precisa conter a palavra 100% (ex. Java não é JavaScript)
+ * Parâmetro:
+ *          - mensagem (String) - a mensagem que queremos verificar;
+ *          - palavras_chaves (vetor) - conjunto de palavras-chaves
+ * 
+ * Exemplos 
+ * {
+    "mensagem": "Gostaria de saber se ensinar javascript",
+    "palavras_chaves": ["JavaScript"] 
+   }
+
+   Retorna true
+ *
+ *  {
+    "mensagem": "Gostaria de saber se ensinar java ",
+    "palavras_chaves": ["JavaScript"] 
+}
+Retorna falso                  
+ */
+
+
+
+export function detectar_palavras_chaves(mensagem, palavras_chaves) {
+    let output = false;
+
+    /**Criada 100% com chatGPT */
+    const checkWord = (str, word) => {
+        const regex = new RegExp(`\\b${word}\\b`, 'i')
+        return regex.test(str)
+    }
+
+    palavras_chaves.forEach((elem) => {
+        if (checkWord(mensagem, elem)) {
+            output = true;
+            return;
+        }
+    })
+
+    return output;
+
+}
