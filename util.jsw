@@ -1,6 +1,22 @@
-
-/**  Direito autorais: Jorge Guerra Pires 
+/**  Direito autorais: Jorge Guerra Pires, 2023 
  * The MIT License 
+ * */
+
+import wixData from 'wix-data';
+
+
+
+export  async function acessar_banco() {
+
+    return await wixData.query("Palavras-Chaves")
+                    // .contains("title", "Palavras-Chaves")
+                    .find()
+                    .then((result) => result.items);
+                    
+    
+}
+
+/**  
  * Essa função recebe uma mensagem, e um cnjunto de palavras-chaves.
  * Ela response true se existe qualquer uma das palavras chaves, não impotante maísculo ou minúscuto (not case sensitive)
  * mas precisa conter a palavra 100% (ex. Java não é JavaScript)
@@ -22,10 +38,7 @@
 }
 Retorna falso                  
  */
-
-
-
-export function detectar_palavras_chaves(mensagem, palavras_chaves) {
+export function detectar_palavras_chaves (mensagem, palavras_chaves) {
     let output = false;
 
     /**Criada 100% com chatGPT */
