@@ -2,18 +2,24 @@
  * The MIT License 
  * */
 
+//Seção de imports
 import wixData from 'wix-data';
 
-
-
-export  async function acessar_banco() {
+export async function acessar_banco() {
 
     return await wixData.query("Palavras-Chaves")
-                    // .contains("title", "Palavras-Chaves")
-                    .find()
-                    .then((result) => result.items);
-                    
-    
+        .find()
+        .then((result) => {
+            let aux = [];
+            
+            result.items.forEach((elem) => aux.push({
+                palavras: elem.palavras,
+                resposta: elem.resposta
+            }))
+
+            return aux
+        });
+
 }
 
 /**  
@@ -38,7 +44,7 @@ export  async function acessar_banco() {
 }
 Retorna falso                  
  */
-export function detectar_palavras_chaves (mensagem, palavras_chaves) {
+export function detectar_palavras_chaves(mensagem, palavras_chaves) {
     let output = false;
 
     /**Criada 100% com chatGPT */
