@@ -1,0 +1,39 @@
+import { fetch } from 'wix-fetch';
+import { getSecret } from "wix-secrets-backend";
+
+export async function chatbot(messages) {
+
+    const url = "https://api.openai.com/v1/chat/completions";
+    const API_key = "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";
+
+     
+
+    const body = {
+        model: "gpt-3.5-turbo",
+        messages: messages
+    }
+
+    const options = {
+        method: "POST",
+        headers: {
+            //missing head as json
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_key}`
+        },
+        body: JSON.stringify(body)
+    };
+
+    let output;
+
+    try {
+        output = await fetch(url, options);
+
+    } catch (error) {
+        console.log(error)
+
+    }
+
+    const data = await output.json();
+
+    return data.choices[0].message.content;
+}
