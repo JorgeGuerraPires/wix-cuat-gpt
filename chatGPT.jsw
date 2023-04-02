@@ -4,9 +4,9 @@ import { getSecret } from "wix-secrets-backend";
 export async function chatbot(messages) {
 
     const url = "https://api.openai.com/v1/chat/completions";
-    const API_key = "*****";
+    const API_key = await getSecret("openAI_key");
 
-     
+    // console.log(messages); 
 
     const body = {
         model: "gpt-3.5-turbo",
@@ -23,17 +23,10 @@ export async function chatbot(messages) {
         body: JSON.stringify(body)
     };
 
-    let output;
-
-    try {
-        output = await fetch(url, options);
-
-    } catch (error) {
-        console.log(error)
-
-    }
-
+    const output = await fetch(url, options);
     const data = await output.json();
+
+    // console.log(data.choices[0].message.content);
 
     return data.choices[0].message.content;
 }
