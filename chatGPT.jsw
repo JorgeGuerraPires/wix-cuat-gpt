@@ -4,7 +4,7 @@ import { getSecret } from "wix-secrets-backend";
 export async function chatbot(messages) {
 
     const url = "https://api.openai.com/v1/chat/completions";
-    const API_key = "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";
+    const API_key = "*****";
 
      
 
