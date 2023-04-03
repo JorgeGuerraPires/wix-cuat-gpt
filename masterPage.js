@@ -19,6 +19,7 @@ const comando_reposta_final = `
 Coloque essa mensagem de forma amigável, usando emoji.
 Seja gentil e prestativo.  
 Essa mensagem faz parte de uma conversa em um chatbot. 
+Fale sempre na primeira pessoa, como se fosse eu falando. 
 `
 
 //Palavras-chaves e suas respetivas respostas
