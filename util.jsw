@@ -4,14 +4,25 @@
 
 //Seção de imports
 import wixData from 'wix-data';
+import { chatbot } from 'backend/chatGPT.jsw';
+
+export function doesAnswerTheQuestion(text, question) { 
+
+    const content = `${text} \n Pergunta: ${question}`;
+
+    return chatbot([{ "role": "system", "content": content }])
+
+}
 
 export async function acessar_banco() {
 
     return await wixData.query("Palavras-Chaves")
         .find()
         .then((result) => {
+            //Vamos retornar somente o que nos interessa
             let aux = [];
-            
+
+            //Passamos por cada elemento, e somente pegamos o que nos interessa
             result.items.forEach((elem) => aux.push({
                 palavras: elem.palavras,
                 resposta: elem.resposta
@@ -44,9 +55,10 @@ export async function acessar_banco() {
 }
 Retorna falso                  
  */
-export function detectar_palavras_chaves(mensagem, palavras_chaves) {
+export async function detectar_palavras_chaves(mensagem, palavras_chaves) {
     let output = false;
 
+    /**Jumento: tenta achar as palavras-chaves diretamente */
     /**Criada 100% com chatGPT */
     const checkWord = (str, word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i')
@@ -59,6 +71,37 @@ export function detectar_palavras_chaves(mensagem, palavras_chaves) {
             return;
         }
     })
+
+    /**chatGPT: caso não tenha achado diretamente, tentar algo indireto */
+    if (!output) {
+        let palavras_chaves_list = "";
+
+        palavras_chaves.forEach((elem) => {
+            palavras_chaves_list = palavras_chaves_list + elem + ", ";
+        })
+
+        const message_chatGPT = [{
+                "role": "system",
+                "content": `
+                Abaixo um conjunto de palavras-chaves, separadas por vírgula, e uma mensagem. 
+                Escolher a palavra-chave que melhor representa a mensagem. 
+                Quando não houver, simplesmente responda em branco.
+                Importante: Responda sempre somente com a palavra-chave quando for o caso, sem explicações, sem textos adicionais. 
+                Palavras-chaves: ${palavras_chaves_list}`,
+            },
+            {
+                "role": "user",
+                "content": "Preciso de ajudar em Angular"
+            }
+
+        ];
+
+        const response_chatGPT = await chatbot(message_chatGPT);
+
+        if (palavras_chaves.includes(response_chatGPT))
+            output = true;
+
+    }
 
     return output;
 
