@@ -6,11 +6,24 @@
 import wixData from 'wix-data';
 import { chatbot } from 'backend/chatGPT.jsw';
 
-export function doesAnswerTheQuestion(text, question) { 
+/**
+ * Dado um texto e pergunta, essa função usa o chatGPT para responder simplesmente sim ou não se o 
+ * o texto responda à pergunta
+ */
+
+export async function doesAnswerTheQuestion(text, question) {
 
     const content = `${text} \n Pergunta: ${question}`;
+    // console.log(content);
 
-    return chatbot([{ "role": "system", "content": content }])
+    const answer = await chatbot([{ "role": "system", "content": content }]);
+
+    // console.log(answer);    
+
+    if (answer === "Sim" || answer === "Sim.")
+        return true;
+    else
+        return false
 
 }
 
@@ -27,6 +40,22 @@ export async function acessar_banco() {
                 palavras: elem.palavras,
                 resposta: elem.resposta
             }))
+
+            return aux
+        });
+
+}
+
+export async function acessar_banco_arvore() {
+
+    return await wixData.query("Arvoredoconhecimento")
+        .find()
+        .then((result) => {
+            //Vamos retornar somente o que nos interessa
+            let aux = [];
+
+            //Passamos por cada elemento, e somente pegamos o que nos interessa
+            result.items.forEach((elem) => aux.push(elem.conteudo))
 
             return aux
         });
